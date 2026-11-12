@@ -57,12 +57,12 @@ ErrorDocument 404 /404.html
 </IfModule>
 
 # Prevent directory listing fallbacks and protect internal/source files
-<FilesMatch "^(\.env|\.git|README\.md|CREDITS\.md|prompt\.md|package\.json|package-lock\.json|vite\.config\.js|eslint\.config\.js)$">
+<FilesMatch "^(\.env|\.git|README\.md|CREDITS\.md|DEPLOYMENT\.md|prompt\.md|package\.json|package-lock\.json|vite\.config\.js|eslint\.config\.js|\.ftp-deploy-sync-state\.json)$">
   Require all denied
 </FilesMatch>
 
 <IfModule mod_rewrite.c>
-  RewriteRule ^(\.commandcode|src|node_modules)(/.*)?$ - [F,L]
+  RewriteRule ^(\.commandcode|\.github|src|node_modules)(/.*)?$ - [F,L]
 </IfModule>
 
 # --------------------------------------------------------------------------
@@ -75,5 +75,7 @@ ErrorDocument 404 /404.html
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
+  # Missing static assets should 404 rather than render the SPA shell.
+  RewriteCond %{REQUEST_URI} !^/(assets|images)/
   RewriteRule ^ index.html [L]
 </IfModule>

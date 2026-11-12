@@ -61,6 +61,8 @@ npm run lint       # ESLint
 │  ├─ robots.txt
 │  ├─ sitemap.xml
 │  └─ .htaccess                  SPA fallback, HTTPS/www redirects, caching, security
+├─ .github/workflows/deploy.yml   GitHub Actions → cPanel FTP deployment
+├─ DEPLOYMENT.md                  Deployment, secrets, verification, rollback
 ├─ package.json
 ├─ vite.config.js
 └─ eslint.config.js
@@ -118,6 +120,20 @@ The selected project is carried through links such as `/contact?project=riversid
 
 The production build is fully static; cPanel does **not** need Node.js.
 
+### Automated via GitHub Actions (recommended)
+
+`.github/workflows/deploy.yml` lints, builds, and uploads `dist/` to cPanel over FTP/FTPS on every push to `main`.
+
+1. Create an FTP account in cPanel — ideally a dedicated account jailed to `public_html`.
+2. Add the `FTP_SERVER`, `FTP_USERNAME`, and `FTP_PASSWORD` secrets in GitHub → **Settings → Secrets and variables → Actions**.
+   - Optional: `FTP_SERVER_DIR`, `FTP_PROTOCOL`, and `FTP_SECURITY`.
+3. Run **Actions → Deploy to cPanel → Run workflow**, or push to `main`.
+4. Full setup, verification, rollback, and troubleshooting: **[DEPLOYMENT.md](./DEPLOYMENT.md)**.
+
+Until the FTP secrets are added, the workflow still lints and builds but skips deployment.
+
+### Manual deployment
+
 1. Run `npm run build`.
 2. Upload the **contents of `dist/`** into `public_html`.
    - Include the hidden `.htaccess` (enable *Settings → Show Hidden Files*).
@@ -130,7 +146,7 @@ The production build is fully static; cPanel does **not** need Node.js.
 
 ### Updating the site
 
-Rebuild and replace the contents of `public_html` with the new `dist/` output. Keep the previous folder for rollback.
+Push to `main` for the automated deployment, or rebuild and replace the contents of `public_html` with the new `dist/` output. Keep the previous folder for rollback.
 
 ---
 
@@ -148,7 +164,7 @@ Because this is a client-rendered SPA, search engines must execute JavaScript to
 ## Placeholders and compliance
 
 - `info@asset13.com` is a placeholder derived from the given domain. Confirm or replace it before launch.
-- Phone, office address, WhatsApp number, map location, and social profiles are blank until supplied.
+- WhatsApp is configured as `8801628374300`; the office address, map location, and social profiles remain blank until supplied.
 - Sample projects are labelled and must not be described as completed real developments.
 - No registration numbers, awards, years in business, unit counts, or testimonials have been invented.
 - Legal pages (Privacy/Terms) are omitted until approved copy is provided.

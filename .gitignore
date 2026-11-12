@@ -4,6 +4,11 @@
 # Internal project brief
 prompt.md
 
+# Dependencies and build output
+node_modules/
+dist/
+.vite/
+
 # OS and editor files
 .DS_Store
 Thumbs.db
@@ -14,4 +19,3 @@ desktop.ini
 # Temporary files
 *.zip
 *.log
-node_modules/

@@ -4,7 +4,7 @@
 
 All photographs are sourced from [Unsplash](https://unsplash.com/) and used under the [Unsplash License](https://unsplash.com/license), which permits free commercial and non-commercial use without attribution. They are illustrative placeholders and should be replaced with the company’s own project photography before launch.
 
-| File | Source |
+| File (`public/images/`) | Source |
 | --- | --- |
 | `hero.jpg` | https://images.unsplash.com/photo-1600585154340-be6161a56a0c |
 | `about.jpg` | https://images.unsplash.com/photo-1600607687920-4e2a09cf159d |
@@ -22,7 +22,7 @@ All photographs are sourced from [Unsplash](https://unsplash.com/) and used unde
 | `gallery-2.jpg` | https://images.unsplash.com/photo-1600573472550-8090b5e0745e |
 | `gallery-3.jpg` | https://images.unsplash.com/photo-1600596542815-ffad4c1539a9 |
 
-`og.png` is a branded social-share composition created for this site, built from the hero photograph above.
+`og.png` is a branded social-share composition created for this site from the hero photograph above.
 
 ## Typography
 
@@ -30,5 +30,5 @@ All photographs are sourced from [Unsplash](https://unsplash.com/) and used unde
 
 ## Icons and logo
 
-- Iconography is hand-built inline SVG.
-- The Asset 13 monogram (`assets/images/logo-mark.svg`, `favicon.svg`) was created for this project.
+- Interface icons are from [Lucide](https://lucide.dev/) under the ISC License.
+- The Asset 13 monogram (`public/images/logo-mark.svg`, `public/favicon.svg`) was created for this project.

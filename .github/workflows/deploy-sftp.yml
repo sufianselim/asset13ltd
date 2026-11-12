@@ -72,7 +72,14 @@ jobs:
             set sftp:auto-confirm yes;
             set net:timeout 20;
             set net:max-retries 3;
+            set confirm off;
             pwd;
+            put -O \"$SFTP_REMOTE_DIR\" ./dist/index.html;
+            put -O \"$SFTP_REMOTE_DIR\" ./dist/.htaccess;
+            put -O \"$SFTP_REMOTE_DIR\" ./dist/404.html;
+            put -O \"$SFTP_REMOTE_DIR\" ./dist/robots.txt;
+            put -O \"$SFTP_REMOTE_DIR\" ./dist/sitemap.xml;
+            put -O \"$SFTP_REMOTE_DIR\" ./dist/favicon.svg;
             mirror -R --verbose ./dist/ \"$SFTP_REMOTE_DIR\";
             bye
           "

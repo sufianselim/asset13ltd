@@ -3,9 +3,10 @@ export const siteConfig = {
   siteUrl: "https://asset13.com",
   contactEmail: "info@asset13.com",
 
-  /* Digits only, international format (e.g. "8801712345678").
+  /* International format, digits only, no leading zero.
+     Bangladesh: 8801628374300 (from local 01628374300).
      Leave blank to hide every WhatsApp button. */
-  whatsappNumber: "01628374300",
+  whatsappNumber: "8801628374300",
   whatsappMessage:
     "Hello Asset 13, I would like to enquire about your housing and property services.",
 

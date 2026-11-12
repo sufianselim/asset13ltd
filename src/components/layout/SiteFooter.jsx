@@ -1,3 +1,4 @@
+import { ArrowUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import { navItems } from "../../data/site.js";
 import { services } from "../../data/services.js";
@@ -76,6 +77,22 @@ export default function SiteFooter() {
 
       <div className="container footer-bottom">
         <p>© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
+        <button
+          className="footer-top"
+          type="button"
+          onClick={() => {
+            const reduceMotion = window.matchMedia(
+              "(prefers-reduced-motion: reduce)"
+            ).matches;
+            window.scrollTo({
+              top: 0,
+              behavior: reduceMotion ? "auto" : "smooth"
+            });
+          }}
+        >
+          Back to top
+          <ArrowUp size={14} aria-hidden="true" />
+        </button>
         <p>Housing &amp; Real Estate · asset13.com</p>
       </div>
     </footer>

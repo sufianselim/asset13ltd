@@ -1286,6 +1286,28 @@ h4 {
   margin: 0;
 }
 
+.footer-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  transition: color 0.25s ease;
+}
+
+.footer-top:hover {
+  color: var(--gold-300);
+}
+
+.footer-top svg {
+  width: 14px;
+  height: 14px;
+}
+
 /* ---------- Page hero (interior) ---------- */
 .page-hero {
   position: relative;

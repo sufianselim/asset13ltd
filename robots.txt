@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asset13.com/sitemap.xml

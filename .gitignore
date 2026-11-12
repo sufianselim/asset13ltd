@@ -1,0 +1,17 @@
+# Local tooling and learning data
+.commandcode/
+
+# Internal project brief
+prompt.md
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Temporary files
+*.zip
+*.log
+node_modules/

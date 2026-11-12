@@ -52,9 +52,8 @@ export default function Services() {
                   ))}
                 </ul>
                 <Link
-                  className="text-link"
+                  className="text-link mt-7"
                   to={`/contact?project=${service.id}`}
-                  style={{ marginTop: "1.75rem" }}
                 >
                   {service.ctaLabel}
                   <span aria-hidden="true">

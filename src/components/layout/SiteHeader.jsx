@@ -105,7 +105,7 @@ export default function SiteHeader() {
             </Link>
             <button
               ref={toggleRef}
-              className={`nav-toggle${menuOpen ? " is-open" : ""}`}
+              className="nav-toggle"
               type="button"
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"

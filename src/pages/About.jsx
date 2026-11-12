@@ -135,7 +135,7 @@ export default function About() {
                 </li>
               ))}
             </ul>
-            <Link className="text-link" to="/contact" style={{ marginTop: "2rem" }}>
+            <Link className="text-link mt-8" to="/contact">
               {commitment.linkLabel}
               <span aria-hidden="true">
                 <ArrowRight size={14} />

@@ -10,9 +10,7 @@
   --navy-950: #06121f;
   --navy-900: #0a1f33;
   --navy-800: #12314d;
-  --navy-700: #1b4064;
   --gold-500: #c9a227;
-  --gold-400: #d9b84a;
   --gold-300: #e6c766;
   --gold-700: #8a6d1f;
   --ivory-50: #f8f7f4;
@@ -23,7 +21,6 @@
   --slate-500: #5b6773;
   --slate-400: #7c8792;
   --line-light: rgba(16, 24, 32, 0.12);
-  --line-dark: rgba(255, 255, 255, 0.14);
   --gold-line: rgba(201, 162, 39, 0.45);
   --error: #b3261e;
 
@@ -35,7 +32,6 @@
   --header-h: 84px;
   --section-y: clamp(4.5rem, 9vw, 8rem);
   --radius: 2px;
-  --shadow-soft: 0 30px 70px -38px rgba(6, 18, 31, 0.45);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -62,10 +58,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-}
-
-body.has-fixed-header {
-  padding-top: var(--header-h);
 }
 
 body.nav-open {
@@ -211,8 +203,8 @@ h4 {
   padding-block: clamp(3rem, 6vw, 5rem);
 }
 
-.section--white {
-  background: var(--white);
+.section--flush-top {
+  padding-top: 0;
 }
 
 .section--ivory {
@@ -322,10 +314,6 @@ h4 {
   color: var(--slate-500);
 }
 
-.text-gold {
-  color: var(--gold-700);
-}
-
 .balance {
   text-wrap: balance;
 }
@@ -355,15 +343,6 @@ h4 {
 
 .text-link:hover span {
   transform: translateX(4px);
-}
-
-.text-link--light {
-  color: var(--white);
-  border-color: var(--gold-line);
-}
-
-.text-link--light:hover {
-  color: var(--gold-300);
 }
 
 /* ---------- Buttons ---------- */
@@ -450,17 +429,6 @@ h4 {
 .btn--outline-light:hover {
   border-color: var(--gold-300);
   color: var(--gold-300);
-}
-
-.btn--dark {
-  background: var(--navy-900);
-  border-color: var(--navy-900);
-  color: var(--white);
-}
-
-.btn--dark:hover {
-  background: var(--navy-800);
-  border-color: var(--navy-800);
 }
 
 /* ---------- Header ---------- */
@@ -1166,6 +1134,10 @@ h4 {
   color: var(--navy-900);
 }
 
+.statement .eyebrow {
+  justify-content: center;
+}
+
 .statement-attr {
   color: var(--slate-500);
   font-size: 0.66rem;
@@ -1365,13 +1337,6 @@ h4 {
 
 .page-hero .eyebrow {
   margin-bottom: 1.25rem;
-}
-
-.page-hero--image {
-  background-image: linear-gradient(90deg, rgba(6, 18, 31, 0.9), rgba(6, 18, 31, 0.45)),
-    var(--page-hero-image);
-  background-size: cover;
-  background-position: center;
 }
 
 /* ---------- About page ---------- */
@@ -1944,6 +1909,10 @@ h4 {
   align-items: start;
 }
 
+.contact-heading {
+  margin-bottom: 1.75rem;
+}
+
 .contact-form {
   display: grid;
   gap: 1.25rem;
@@ -2056,6 +2025,10 @@ h4 {
   color: var(--error);
 }
 
+.contact-aside h2 {
+  margin-bottom: 1.5rem;
+}
+
 .contact-list {
   display: grid;
   gap: 0;
@@ -2095,6 +2068,12 @@ h4 {
   color: var(--slate-500);
   font-size: 0.82rem;
   line-height: 1.7;
+}
+
+.contact-aside-note strong {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--navy-900);
 }
 
 .map-shell {

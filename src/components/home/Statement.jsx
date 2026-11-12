@@ -4,9 +4,7 @@ export default function Statement() {
   return (
     <section className="statement" aria-label="Our standard">
       <div className="container statement-inner reveal">
-        <p className="eyebrow" style={{ justifyContent: "center" }}>
-          {statement.eyebrow}
-        </p>
+        <p className="eyebrow">{statement.eyebrow}</p>
         <blockquote>“{statement.quote}”</blockquote>
         <p className="statement-attr">{statement.attribution}</p>
       </div>

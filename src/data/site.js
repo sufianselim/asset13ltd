@@ -224,9 +224,7 @@ export const projectsPage = {
     title: "Places designed to be lived in.",
     intro:
       "Housing and residential developments at different stages — from early concepts and upcoming launches to projects currently under construction."
-  },
-  note:
-    "Projects marked Sample are illustrative layout previews, not completed work. Real project details, locations, and photography will replace them once confirmed by Asset 13 LTD."
+  }
 };
 
 export const contactPage = {

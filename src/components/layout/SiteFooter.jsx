@@ -75,7 +75,7 @@ export default function SiteFooter() {
       </div>
 
       <div className="container footer-bottom">
-        <p>© {new Date().getFullYear()} Asset 13 LTD. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
         <p>Housing &amp; Real Estate · asset13.com</p>
       </div>
     </footer>

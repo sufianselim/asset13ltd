@@ -47,6 +47,7 @@ export default function PageMeta({
     document.title = title;
 
     upsertMeta("name", "description", description);
+    upsertMeta("property", "og:site_name", siteConfig.name);
     upsertMeta("property", "og:type", type);
     upsertMeta("property", "og:title", title);
     upsertMeta("property", "og:description", description);

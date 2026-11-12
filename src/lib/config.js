@@ -5,7 +5,7 @@ export const siteConfig = {
 
   /* Digits only, international format (e.g. "8801712345678").
      Leave blank to hide every WhatsApp button. */
-  whatsappNumber: "",
+  whatsappNumber: "01628374300",
   whatsappMessage:
     "Hello Asset 13, I would like to enquire about your housing and property services.",
 

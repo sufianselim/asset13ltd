@@ -73,7 +73,7 @@ export default function ProjectDetail() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section section--flush-top">
         <div className="container project-layout">
           <div className="project-prose reveal">
             <h2>Overview</h2>

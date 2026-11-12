@@ -24,7 +24,7 @@ export default function Contact() {
         <div className="container contact-grid">
           <div className="reveal">
             <p className="eyebrow">Send an enquiry</p>
-            <h2 style={{ marginBottom: "1.75rem" }}>How can we help?</h2>
+            <h2 className="contact-heading">How can we help?</h2>
             <ContactForm />
           </div>
 

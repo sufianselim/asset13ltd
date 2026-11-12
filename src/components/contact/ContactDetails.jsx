@@ -6,7 +6,7 @@ export default function ContactDetails() {
   return (
     <aside className="contact-aside reveal">
       <p className="eyebrow">Direct contact</p>
-      <h2 style={{ marginBottom: "1.5rem" }}>Prefer to speak directly?</h2>
+      <h2>Prefer to speak directly?</h2>
 
       <ul className="contact-list">
         <li className="contact-item">
@@ -35,15 +35,7 @@ export default function ContactDetails() {
       </ul>
 
       <div className="contact-aside-note">
-        <strong
-          style={{
-            display: "block",
-            marginBottom: ".4rem",
-            color: "var(--navy-900)"
-          }}
-        >
-          Helpful to include
-        </strong>
+        <strong>Helpful to include</strong>
         The type of home or property you are considering, your preferred
         location, and your timeline. If you are enquiring about a specific
         project, select it in the form so we can send the right information.

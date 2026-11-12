@@ -72,19 +72,19 @@ jobs:
             set net:timeout 20;
             set net:max-retries 3;
             pwd;
-            rm -f \"$SFTP_REMOTE_DIR/index.html\";
-            rm -f \"$SFTP_REMOTE_DIR/.htaccess\";
-            rm -f \"$SFTP_REMOTE_DIR/404.html\";
-            rm -f \"$SFTP_REMOTE_DIR/robots.txt\";
-            rm -f \"$SFTP_REMOTE_DIR/sitemap.xml\";
-            rm -f \"$SFTP_REMOTE_DIR/favicon.svg\";
-            put -O \"$SFTP_REMOTE_DIR\" ./dist/index.html;
-            put -O \"$SFTP_REMOTE_DIR\" ./dist/.htaccess;
-            put -O \"$SFTP_REMOTE_DIR\" ./dist/404.html;
-            put -O \"$SFTP_REMOTE_DIR\" ./dist/robots.txt;
-            put -O \"$SFTP_REMOTE_DIR\" ./dist/sitemap.xml;
-            put -O \"$SFTP_REMOTE_DIR\" ./dist/favicon.svg;
-            mirror -R --verbose ./dist/ \"$SFTP_REMOTE_DIR\";
+            rm -f $SFTP_REMOTE_DIR/index.html;
+            rm -f $SFTP_REMOTE_DIR/.htaccess;
+            rm -f $SFTP_REMOTE_DIR/404.html;
+            rm -f $SFTP_REMOTE_DIR/robots.txt;
+            rm -f $SFTP_REMOTE_DIR/sitemap.xml;
+            rm -f $SFTP_REMOTE_DIR/favicon.svg;
+            put -O $SFTP_REMOTE_DIR ./dist/index.html;
+            put -O $SFTP_REMOTE_DIR ./dist/.htaccess;
+            put -O $SFTP_REMOTE_DIR ./dist/404.html;
+            put -O $SFTP_REMOTE_DIR ./dist/robots.txt;
+            put -O $SFTP_REMOTE_DIR ./dist/sitemap.xml;
+            put -O $SFTP_REMOTE_DIR ./dist/favicon.svg;
+            mirror -R --verbose ./dist/ $SFTP_REMOTE_DIR;
             bye
           "
 

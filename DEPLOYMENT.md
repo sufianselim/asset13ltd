@@ -1,15 +1,17 @@
 # Deploying Asset 13 LTD to cPanel
 
-This repository deploys the built site to **cPanel shared hosting** using GitHub Actions over FTP/FTPS.
+This repository deploys the built site to **cPanel shared hosting** using **GitHub Actions over SFTP**.
+
+SFTP is used instead of FTP because shared-hosting firewalls commonly block FTP passive data ports. SFTP (port 22) avoids that problem entirely.
 
 How it works:
 
 1. Push to `main` (or run the workflow manually).
 2. GitHub Actions installs dependencies, lints, and builds `dist/`.
-3. The workflow uploads the contents of `dist/` to `public_html/` on cPanel.
+3. The workflow uploads the contents of `dist/` to `public_html/` using `lftp` over SFTP.
 4. cPanel serves the static files; no Node runtime is required on the host.
 
-The workflow is `.github/workflows/deploy.yml`. Until FTP secrets are configured, the build still runs but the deploy step is skipped safely.
+The workflow is `.github/workflows/deploy-sftp.yml`. Until SFTP secrets are configured, the build still runs but the deploy step is skipped safely.
 
 ---
 
@@ -21,30 +23,27 @@ The workflow is `.github/workflows/deploy.yml`. Until FTP secrets are configured
 2. Point the domain's DNS to the cPanel server if it is not already resolving there.
 3. In **SSL/TLS Status**, run **AutoSSL** and confirm HTTPS is active before testing the site. The `.htaccess` forces HTTPS.
 
-### FTP credentials
+### Enable SSH / SFTP
 
-**Recommended: a dedicated FTP account**
+1. In cPanel, open **SSH Access** (or **Terminal**, if available).
+2. Confirm SSH access is enabled for the main cPanel account. Some hosts require a support ticket to enable it.
+3. Use the **main cPanel username and password** for SFTP. A dedicated FTP sub-account such as `deploy@asset13.com` usually does **not** have SFTP/SSH access.
 
-1. cPanel → **FTP Accounts** → **Add FTP Account**.
-2. Use a dedicated login such as `deploy@asset13.com` and a strong, unique password.
-3. Set the directory to `public_html`.
-4. Save, then note:
-   - **FTP server** — shown on the FTP Accounts page (for example `ftp.asset13.com` or the server hostname/IP).
-   - **Username** — for example `deploy@asset13.com`.
-   - **Password**.
+### Test SFTP before adding secrets
 
-Because a dedicated account is usually jailed to `public_html`, set `FTP_SERVER_DIR` to `./`.
+Use FileZilla, WinSCP, or another SFTP client:
 
-**Alternative: the main cPanel account**
+| Setting | Value |
+| --- | --- |
+| Protocol | **SFTP** |
+| Host | `cloud.mywhiteserver.com` (or the cPanel server hostname) |
+| Port | `22` |
+| Username | **main cPanel username** |
+| Password | **cPanel password** |
 
-Use the main cPanel username/password and set `FTP_SERVER_DIR` to `public_html/`. A dedicated account is safer because it can be revoked without changing the main cPanel login.
+If the connection works, you should land in `/home/<cpanel-user>/`. The site folder is `public_html` inside that home directory.
 
-### Connection mode
-
-- Use **FTPS** (explicit FTP over TLS) on port `21` when available.
-- If the host does not support FTPS, set `FTP_PROTOCOL` to `ftp`. This is unencrypted; only use it if the host has no alternative.
-- If FTPS fails because of a self-signed certificate, set `FTP_SECURITY` to `loose`.
-- SFTP is not handled by this workflow. If your host only offers SFTP, ask for a different deployment action.
+If SFTP login fails, ask the hosting provider to enable SSH/SFTP for the cPanel account. FTP passive ports are blocked on this server, so FTP/FTPS is not a reliable alternative.
 
 ---
 
@@ -54,14 +53,15 @@ In GitHub: **Settings → Secrets and variables → Actions → New repository s
 
 | Secret | Required | Value |
 | --- | --- | --- |
-| `FTP_SERVER` | Yes | FTP host, e.g. `ftp.asset13.com` |
-| `FTP_USERNAME` | Yes | FTP login, e.g. `deploy@asset13.com` |
-| `FTP_PASSWORD` | Yes | FTP password |
-| `FTP_SERVER_DIR` | Optional | `./` for a dedicated account jailed to `public_html`; `public_html/` for the main cPanel account (default) |
-| `FTP_PROTOCOL` | Optional | `ftps` (default) or `ftp` |
-| `FTP_SECURITY` | Optional | `strict` (default) or `loose` for a self-signed FTPS certificate |
+| `SFTP_SERVER` | Yes | `cloud.mywhiteserver.com` (or your server hostname) |
+| `SFTP_USERNAME` | Yes | **Main cPanel username** |
+| `SFTP_PASSWORD` | Yes | **Main cPanel password** |
+| `SFTP_PORT` | Optional | `22` (default) |
+| `SFTP_REMOTE_DIR` | Optional | `public_html` (default). Use an absolute path such as `/home/USER/public_html` if needed. Use `.` if the SFTP login is already inside `public_html`. |
 
-Never commit FTP credentials to the repository.
+The workflow falls back to the older `FTP_SERVER`, `FTP_USERNAME`, and `FTP_PASSWORD` secrets if the `SFTP_*` versions are missing. For reliability, add explicit `SFTP_*` secrets using the main cPanel account.
+
+Never commit SFTP credentials to the repository.
 
 ---
 
@@ -79,7 +79,7 @@ git push origin main
 
 ### Manual trigger
 
-GitHub → **Actions** → **Deploy to cPanel** → **Run workflow** → choose `main` → **Run**.
+GitHub → **Actions** → **Deploy to cPanel (SFTP)** → **Run workflow** → choose `main` → **Run**.
 
 Use this after adding the secrets for the first time.
 
@@ -103,30 +103,34 @@ If direct route loads return an Apache 404, confirm `public/.htaccess` was uploa
 
 ---
 
-## 5. Manual deployment (fallback)
+## 5. Manual deployment (fastest fallback)
 
-If GitHub Actions/FTP is unavailable:
+A ready-to-upload build is available in the project root as `asset13ltd-dist.zip`.
 
-1. Build locally:
-   ```bash
-   npm ci
-   npm run build
-   ```
-2. In cPanel → **File Manager**, open `public_html`.
-3. Upload the **contents of `dist/`**, including the hidden `.htaccess` (enable **Settings → Show Hidden Files**).
-4. Do not upload the repository root, `src/`, `node_modules/`, or `package.json`.
-5. Reload the site and run the verification checklist.
+1. cPanel → **File Manager** → open `public_html`.
+2. Upload `asset13ltd-dist.zip`.
+3. Right-click the zip → **Extract**. The zip has `index.html` at its root, so it extracts directly into `public_html`.
+4. Delete the zip.
+5. Enable **Settings → Show Hidden Files** and confirm `.htaccess` is present.
+6. Reload the site and run the verification checklist.
 
-The build output already contains `index.html`, hashed JS/CSS, images, `robots.txt`, `sitemap.xml`, `404.html`, and `.htaccess`.
+To build it yourself instead:
+
+```bash
+npm ci
+npm run build
+```
+
+Upload the **contents of `dist/`**, including the hidden `.htaccess`. Do not upload the repository root, `src/`, `node_modules/`, or `package.json`.
 
 ---
 
 ## 6. Updating and rollback
 
-- **Update:** push a new commit to `main`; GitHub Actions rebuilds and uploads changed files.
+- **Update:** push a new commit to `main`; GitHub Actions rebuilds and uploads changed files via SFTP.
 - **Rollback:** revert the problematic commit and push, or re-run a previous successful workflow from the Actions tab.
-- Keep a copy of the previous `public_html` contents (or a cPanel backup) before major changes.
-- The FTP action syncs files but does not delete unrelated files in `public_html`. Keep unrelated backups outside that directory.
+- Keep a cPanel backup or a copy of `public_html` before major changes.
+- The SFTP mirror does not delete files that are no longer in `dist/` (for example, old hashed JS/CSS). They are harmless; remove them manually if you want a completely clean folder.
 
 ---
 
@@ -134,19 +138,20 @@ The build output already contains `index.html`, hashed JS/CSS, images, `robots.t
 
 | Problem | Fix |
 | --- | --- |
-| Workflow succeeds but says deployment was skipped | `FTP_SERVER`, `FTP_USERNAME`, or `FTP_PASSWORD` is missing. Add the secrets and re-run the workflow. |
-| `530 Login authentication failed` | Check the FTP username/password and that the account is active. |
-| `ECONNREFUSED` / timeout | Try `FTP_PROTOCOL=ftp` or verify the host and port with the hosting provider. |
-| FTPS certificate error | Set `FTP_SECURITY=loose` (self-signed certificate) or ask the host for a valid certificate. |
-| Files upload to the wrong folder | A dedicated FTP account jailed to `public_html` needs `FTP_SERVER_DIR=./`; the main account usually needs `public_html/`. |
+| Workflow succeeds but deployment was skipped | Add `SFTP_SERVER`, `SFTP_USERNAME`, and `SFTP_PASSWORD`; re-run the workflow. |
+| `Permission denied (publickey,password)` | Use the **main cPanel account**, not an FTP sub-account. Confirm SSH/SFTP is enabled in cPanel. |
+| `Could not resolve hostname` | Check `SFTP_SERVER`; use `cloud.mywhiteserver.com` or the server IP/hostname. |
+| Files upload to the wrong folder | Check the remote home with the `pwd` line in the workflow log. Set `SFTP_REMOTE_DIR` to `public_html`, `.`, or an absolute `/home/USER/public_html` path. |
+| `No such file or directory` on the remote path | Create `public_html` in cPanel, or correct `SFTP_REMOTE_DIR`. |
+| FTP/FTPS times out on data connection | Expected on this host: passive FTP ports are blocked. Use SFTP, or ask the host to open the passive range. |
 | Direct `/about` returns 404 | Ensure `.htaccess` is present in `public_html` and `AllowOverride All` is enabled. |
-| CSS/JS loads an old version | Hard-refresh the browser; hashed assets are cached for a year, but `index.html` is not. |
-| HTTPS redirect loop | Confirm AutoSSL is active and the domain's SSL certificate covers both `asset13.com` and `www.asset13.com`. |
+| CSS/JS loads an old version | Hard-refresh the browser; hashed assets are cached, but `index.html` is not. |
+| HTTPS redirect loop | Confirm AutoSSL is active and the certificate covers both `asset13.com` and `www.asset13.com`. |
 
 ---
 
 ## Notes
 
 - The site is a client-rendered React SPA. The `.htaccess` fallback is required for direct visits to `/about`, `/projects/...`, `/services`, and `/contact`.
-- The `.htaccess` also blocks the FTP sync state file and internal repository files.
+- The `.htaccess` also blocks internal repository files and the old FTP sync state file.
 - Contact details, WhatsApp, form endpoint, map, and social links are configured in `src/lib/config.js`.

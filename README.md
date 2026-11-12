@@ -61,7 +61,7 @@ npm run lint       # ESLint
 │  ├─ robots.txt
 │  ├─ sitemap.xml
 │  └─ .htaccess                  SPA fallback, HTTPS/www redirects, caching, security
-├─ .github/workflows/deploy.yml   GitHub Actions → cPanel FTP deployment
+├─ .github/workflows/deploy-sftp.yml  GitHub Actions → cPanel SFTP deployment
 ├─ DEPLOYMENT.md                  Deployment, secrets, verification, rollback
 ├─ package.json
 ├─ vite.config.js
@@ -122,15 +122,15 @@ The production build is fully static; cPanel does **not** need Node.js.
 
 ### Automated via GitHub Actions (recommended)
 
-`.github/workflows/deploy.yml` lints, builds, and uploads `dist/` to cPanel over FTP/FTPS on every push to `main`.
+`.github/workflows/deploy-sftp.yml` lints, builds, and uploads `dist/` to cPanel over SFTP on every push to `main`.
 
-1. Create an FTP account in cPanel — ideally a dedicated account jailed to `public_html`.
-2. Add the `FTP_SERVER`, `FTP_USERNAME`, and `FTP_PASSWORD` secrets in GitHub → **Settings → Secrets and variables → Actions**.
-   - Optional: `FTP_SERVER_DIR`, `FTP_PROTOCOL`, and `FTP_SECURITY`.
-3. Run **Actions → Deploy to cPanel → Run workflow**, or push to `main`.
+1. In cPanel → **SSH Access**, confirm SSH/SFTP is enabled and use the **main cPanel account** for SFTP. FTP passive ports are blocked on this server.
+2. Add `SFTP_SERVER`, `SFTP_USERNAME`, and `SFTP_PASSWORD` secrets in GitHub → **Settings → Secrets and variables → Actions**.
+   - Optional: `SFTP_PORT` (default `22`) and `SFTP_REMOTE_DIR` (default `public_html`).
+3. Run **Actions → Deploy to cPanel (SFTP) → Run workflow**, or push to `main`.
 4. Full setup, verification, rollback, and troubleshooting: **[DEPLOYMENT.md](./DEPLOYMENT.md)**.
 
-Until the FTP secrets are added, the workflow still lints and builds but skips deployment.
+Until the SFTP secrets are added, the workflow still lints and builds but skips deployment.
 
 ### Manual deployment
 

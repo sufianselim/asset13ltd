@@ -42,5 +42,11 @@ jobs:
             ls -la public_html/public_html;
             ls -la www;
             ls -la asset13.com;
+            ls -la asset13.com/sufian;
+            ls -la asset13.com/sufian/assets;
+            ls -la asset13.com/sufian/images;
+            ls -la asset13.com/sufian/index.html;
+            ls -la asset13.com/sufian/.htaccess;
+            ls -la public_html/index.html;
             bye
           "

@@ -68,8 +68,7 @@ jobs:
           ssh-keyscan -p "$SFTP_PORT" "$SFTP_SERVER" >> "$HOME/.ssh/known_hosts" 2>/dev/null || true
           chmod 600 "$HOME/.ssh/known_hosts"
 
-          export LFTP_PASSWORD="$SFTP_PASSWORD"
-          lftp -u "$SFTP_USERNAME" "sftp://$SFTP_SERVER:$SFTP_PORT" -e "
+          lftp -u "$SFTP_USERNAME,$SFTP_PASSWORD" "sftp://$SFTP_SERVER:$SFTP_PORT" -e "
             set sftp:auto-confirm yes;
             set net:timeout 20;
             set net:max-retries 3;
